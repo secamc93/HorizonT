@@ -1,56 +1,28 @@
 package main
 
 import (
-	"database/sql"
+	"HorizonT/controllers"
+	"HorizonT/models"
 	"log"
 
 	"github.com/gin-gonic/gin"
-	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-func connectToDB() (*sql.DB, error) {
-	connStr := "user=<postgres> password=<2004> dbname=<HorizonT> host=192.168.48.1 port=5433 sslmode=disable"
-	db, err := sql.Open("postgres", connStr)
-	if err != nil {
-		return nil, err
-	}
-
-	err = db.Ping()
-	if err != nil {
-		return nil, err
-	}
-
-	return db, nil
-}
-
-func obtenerVisitas(c *gin.Context) {
-	// Implementar la lógica para obtener las visitas
-}
-
-func crearVisita(c *gin.Context) {
-	// Implementar la lógica para crear una visita
-}
-
-func obtenerVisita(c *gin.Context) {
-	// Implementar la lógica para obtener una visita por ID
-}
-
-func actualizarVisita(c *gin.Context) {
-	// Implementar la lógica para actualizar una visita por ID
-}
-
-func eliminarVisita(c *gin.Context) {
-	// Implementar la lógica para eliminar una visita por ID
-}
-
 func main() {
-	r := gin.Default()
-	db, err := connectToDB()
+	dsn := "host=localhost user=cam dbname=horizont password=2004 sslmode=require"
+	var err error
+	models.DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		log.Fatalf("Error al conectar a la base de datos: %v", err)
 	}
-	defer db.Close()
+
+	// Migrate the schema
+	models.DB.AutoMigrate(&models.Residente{}, &models.Unidad{}, &models.Visitante{}, &models.Visita{})
+
+	r := gin.Default()
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -59,11 +31,11 @@ func main() {
 	})
 
 	// Rutas para visitas
-	r.GET("/visitas", obtenerVisitas)
-	r.POST("/visitas", crearVisita)
-	r.GET("/visitas/:id", obtenerVisita)
-	r.PUT("/visitas/:id", actualizarVisita)
-	r.DELETE("/visitas/:id", eliminarVisita)
+	r.GET("/visitas", controllers.GetVisitas)
+	r.POST("/visitas", controllers.CreateVisita)
+	r.GET("/visitas/:id", controllers.GetVisita)
+	r.PUT("/visitas/:id", controllers.UpdateVisita)
+	r.DELETE("/visitas/:id", controllers.DeleteVisita)
 
-	r.Run(":5432")
+	r.Run(":8080")
 }
