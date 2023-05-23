@@ -1,0 +1,64 @@
+.registro-visita {
+    background-color: #555555;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+  }
+  
+  .registro-visita h2 {
+    color:white; /* Cambia el color a un verde neutro */
+    text-align: center; /* Centra el texto */
+    font-weight: bold; /* Aplica negrilla */
+    text-transform: uppercase; /* Convierte el texto a mayúsculas */
+  }
+  
+  .registro-visita label {
+    color: white; /* Cambia el color a naranja */
+    text-align: center; /* Centra el texto */
+    font-weight: bold; /* Aplica negrilla */
+    text-transform: uppercase; /* Convierte el texto a mayúsculas */
+     /* Aumenta el margen inferior */
+    transition: color 0.3s;
+    padding: 0;
+    margin: 0%;
+     /* Agrega transición para el cambio de color al pasar el cursor */
+  }
+  
+  .registro-visita label:hover {
+    color: red; /* Cambia el color al pasar el cursor por encima */
+  }
+  
+  
+  .registro-visita input[type="text"] {
+    background-color:white;
+    color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    width: 100%; /* Cambia el valor de 'width' a '100%' */
+    box-sizing: border-box; /* Agrega 'box-sizing: border-box' para que el ancho incluya el padding */
+    text-align: center; /* Agrega 'text-align: center' para centrar el texto */
+  }
+  
+  .registro-visita button {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 auto; /* Agrega 'margin: 0 auto' para centrar el botón */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Agrega sombra */
+    transition: background-color 0.3s; /* Agrega transición para el cambio de color al pasar el cursor */
+  }
+  
+  .registro-visita button:hover {
+    background-color:orangered; /* Cambia el color al pasar el cursor por encima */
+  }
+  
+  

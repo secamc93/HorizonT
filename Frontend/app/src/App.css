@@ -1,0 +1,71 @@
+.App {
+  text-align: center;
+}
+html, body {
+  height: 100%; /* Asegura que el contenedor padre ocupe toda la altura disponible */
+  margin: 0; /* Elimina los márgenes predeterminados del cuerpo */
+  padding: 0; /* Elimina el relleno predeterminado del cuerpo */
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Cambiamos a 'center' para alinear el contenido al centro verticalmente */
+  align-items: center;
+  background-color: rgba(0, 100, 0, 0.8);
+  height: 10vh;
+  margin: 2%;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  color: white;
+  text-align: center; /* Asegúrate de que el texto esté alineado en el centro */
+  font-size: 2vh; /* Ajusta el tamaño de la fuente en relación a la altura de la ventana */
+}
+
+
+
+
+@media (max-width: 768px) { /* Aplica reglas adicionales para pantallas más pequeñas */
+  .container {
+    margin: 10%; /* Reduce el margen en pantallas más pequeñas */
+    height: auto; /* Cambia la altura a 'auto' para que se ajuste según el contenido */
+  }
+}
+
+
+
