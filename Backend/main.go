@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Migrate the schema
+	err = models.DB.AutoMigrate(&models.Visitante{})
 	models.DB.AutoMigrate(&models.Residente{}, &models.Unidad{}, &models.Visitante{}, &models.Visita{})
 
 	r := gin.Default()
@@ -36,6 +37,9 @@ func main() {
 	r.GET("/visitas/:id", controllers.GetVisita)
 	r.PUT("/visitas/:id", controllers.UpdateVisita)
 	r.DELETE("/visitas/:id", controllers.DeleteVisita)
+
+	//Rutas para visitante
+	r.POST("/visitante", controllers.InsertarVisitante)
 
 	r.Run(":8080")
 }
