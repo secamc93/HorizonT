@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	dsn := "host=localhost user=cam dbname=horizont password=2004 sslmode=require"
+	dsn := "postgres://cam:2004@localhost/horizont?sslmode=disable"
 	var err error
 	models.DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
