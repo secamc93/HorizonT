@@ -1,22 +1,33 @@
 package controllers
 
-// Aquí irían las funciones para manejar las solicitudes HTTP de los visitantes (GetVisitantes, CreateVisitante, GetVisitante, UpdateVisitante, DeleteVisitante)
 import (
 	"HorizonT/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
+	"github.com/google/uuid"
 )
 
 func InsertarVisitante(c *gin.Context) {
-	// Crear una instancia del modelo Residente y asignar los datos proporcionados
+	// Generar un ID único para el visitante
+
+	// Crear una instancia del modelo Visitante y asignar los datos proporcionados
 	visitante := models.Visitante{
-		Model:              gorm.Model{},
-		ID:                 0,
+		ID:                 uuid.New().String(),
 		Nombre:             c.PostForm("nombre"),
 		Identificacion:     c.PostForm("identificacion"),
 		TipoIdentificacion: c.PostForm("tipo_identificacion"),
 		Telefono:           c.PostForm("telefono"),
 		Foto:               []byte{},
 	}
+
+	// Realizar la inserción en la base de datos
+	err := models.DB.Create(&visitante).Error
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Devolver la respuesta de éxito con el visitante creado
+	c.JSON(http.StatusOK, gin.H{"message": "Visitante creado exitosamente", "visitante": visitante})
+}
