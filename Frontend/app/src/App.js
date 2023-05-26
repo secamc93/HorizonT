@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import AppWrapper from './Components/AppWrapper';
 import RegistroVisita from './Components/RegistroVisita';
 import './App.css';
+import Header from './Components/Header';
+import Tabla from './Components/Tabla';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -14,19 +16,17 @@ function App() {
   }, []);
 
   return (
-    <div className="container">
-      <h1>Bienvenido a HorizonT</h1>
-      <p>{message}</p>
-      <RegistroVisita /> {RegistroVisita}
-
-      <AppWrapper/>
-    </div>
-   
-
-
-    
-    
+      <AppWrapper>
+          <Header />
+          <p>{message}</p>
+          <RegistroVisita />
+          <Tabla/>
+      </AppWrapper>
   );
 }
 
 export default App;
+
+
+
+
