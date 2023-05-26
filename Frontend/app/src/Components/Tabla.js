@@ -1,134 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Tabla() {
-  const data = [
-    {
-      nombre: "John",
-      apellido: "Doe",
-      cedula: "123456",
-      unidad: "Unit 1"
-    },
-    {
-      nombre: "Jane",
-      apellido: "Doe",
-      cedula: "789456",
-      unidad: "Unit 2"
-    },
-    {
-      nombre: "Alice",
-      apellido: "Smith",
-      cedula: "987654",
-      unidad: "Unit 3"
-    },
-    {
-      nombre: "Bob",
-      apellido: "Johnson",
-      cedula: "654321",
-      unidad: "Unit 1"
-    },
-    {
-      nombre: "Emily",
-      apellido: "Davis",
-      cedula: "456789",
-      unidad: "Unit 2"
-    },
-    {
-      nombre: "Michael",
-      apellido: "Wilson",
-      cedula: "321654",
-      unidad: "Unit 3"
-    },
-    {
-      nombre: "Sarah",
-      apellido: "Taylor",
-      cedula: "159357",
-      unidad: "Unit 1"
-    },
-    {
-      nombre: "David",
-      apellido: "Anderson",
-      cedula: "753159",
-      unidad: "Unit 2"
-    },
-    {
-      nombre: "Olivia",
-      apellido: "Thomas",
-      cedula: "246813",
-      unidad: "Unit 3"
-    },
-    {
-      nombre: "Daniel",
-      apellido: "Moore",
-      cedula: "951357",
-      unidad: "Unit 1"
-    },
-    {
-      nombre: "Sophia",
-      apellido: "Brown",
-      cedula: "357951",
-      unidad: "Unit 2"
-    },
-    {
-      nombre: "Matthew",
-      apellido: "Lee",
-      cedula: "864209",
-      unidad: "Unit 3"
-    },
-    {
-      nombre: "Ava",
-      apellido: "Jackson",
-      cedula: "297148",
-      unidad: "Unit 1"
-    },
-    {
-      nombre: "James",
-      apellido: "White",
-      cedula: "680932",
-      unidad: "Unit 2"
-    },
-    {
-      nombre: "Lily",
-      apellido: "Clark",
-      cedula: "831097",
-      unidad: "Unit 3"
-    },
-    {
-      nombre: "Benjamin",
-      apellido: "Harris",
-      cedula: "457210",
-      unidad: "Unit 1"
-    },
-    {
-      nombre: "Chloe",
-      apellido: "Lewis",
-      cedula: "729610",
-      unidad: "Unit 2"
-    },
-    {
-      nombre: "Jacob",
-      apellido: "Martin",
-      cedula: "106824",
-      unidad: "Unit 3"
-    },
-    {
-      nombre: "Grace",
-      apellido: "Young",
-      cedula: "513479",
-      unidad: "Unit 1"
-    },
-    {
-      nombre: "William",
-      apellido: "Walker",
-      cedula: "908763",
-      unidad: "Unit 2"
-    },
-    {
-      nombre: "Nora",
-      apellido: "Hall",
-      cedula: "263094",
-      unidad: "Unit 3"
-    }
-  ];
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+
+      try {
+        const response = await fetch('localhost/datos'); // Reemplaza con tu URL de la API.
+        const data = await response.json();
+        
+        setData(data);
+        setIsLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return <div>Cargando...</div>;
+  }
+
+  if (error) {
+    return <div>Error al cargar los datos: {error}</div>;
+  }
 
   return (
     <div className="flex flex-col justify-center p-10">
@@ -177,8 +79,7 @@ function Tabla() {
         </div>
       </div>
     </div>
-);
-
+  );
 }
 
 export default Tabla;
