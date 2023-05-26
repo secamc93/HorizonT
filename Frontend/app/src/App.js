@@ -4,6 +4,7 @@ import RegistroVisita from './Components/RegistroVisita';
 import './App.css';
 import Header from './Components/Header';
 import Tabla from './Components/Tabla';
+import Footer from './Components/Footer';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -18,9 +19,10 @@ function App() {
   return (
       <AppWrapper>
           <Header />
-          <p>{message}</p>
           <RegistroVisita />
           <Tabla/>
+          <Footer/>
+          <p>{message}</p>
       </AppWrapper>
   );
 }

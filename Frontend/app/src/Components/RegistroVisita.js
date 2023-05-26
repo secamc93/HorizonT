@@ -8,20 +8,54 @@ function RegistroVisita() {
   const [cedula, setCedula] = useState('');
   const [unidad, setUnidad] = useState('');
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Nombre:', nombre);
-    console.log('Apellido:', apellido);
-    console.log('Cédula:', cedula);
-    console.log('Unidad:', unidad);
+  
+    const visita = {
+      nombre: nombre,
+      apellido: apellido,
+      cedula: cedula,
+      unidad: unidad
+    };
+  
+    const response = await fetch('localhost/visitas', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(visita)
+    });
+  
+    if (response.ok) {
+      mostrarMensaje('Visita registrada con éxito', 'success');
+    } else {
+      mostrarMensaje('Hubo un error registrando la visita', 'error');
+    }
+  
     setNombre('');
     setApellido('');
     setCedula('');
     setUnidad('');
   };
+  
+  function mostrarMensaje(mensaje, tipo) {
+    const mensajeElemento = document.getElementById('mensaje');
+    mensajeElemento.textContent = mensaje;
+  
+    if (tipo === 'success') {
+      mensajeElemento.style.color = 'green';
+    } else if (tipo === 'error') {
+      mensajeElemento.style.color = 'red';
+    }
+  };
+  
+  
 
   return (
-    <div className= " bg-gray-700 p-3 rounded-lg shadow-md  items-start m-20 max-w-xs mx-auto" >
+    <div className= "flex-grow bg-gray-700 p-6 rounded-lg shadow-md  items-start m-20 max-w-xs mx-auto" >
+      <p id="mensaje"  className="text-center bg-green-900 rounded-lg p-1"></p>
+
       <h2 className="text-white text-center font-bold uppercase">Registro de visita</h2>
       <form onSubmit={handleSubmit} className="w-full">
         <div className="my-2">
