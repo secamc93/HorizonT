@@ -1,41 +1,37 @@
 package main
 
 import (
-	"HorizonT/controllers"
-	"HorizonT/models"
-	"log"
 
-	"github.com/gin-gonic/gin"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	//"log"
+	"HorizonT/db"
+	"HorizonT/models"
+	"HorizonT/routes"
+	"net/http"
+
+	"github.com/gorilla/mux"
+	//"github.com/gin-gonic/gin"
+	//"gorm.io/gorm"
+	//"gorm.io/driver/postgres"
 )
 
 func main() {
-	dsn := "host=localhost user=cam dbname=horizont password=2004 sslmode=require"
-	var err error
-	models.DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	//Se separan las variables y funciones para utilizar mejores practicas
 
-	if err != nil {
-		log.Fatalf("Error al conectar a la base de datos: %v", err)
-	}
+	db.DBConnection()
 
-	// Migrate the schema
-	models.DB.AutoMigrate(&models.Residente{}, &models.Unidad{}, &models.Visitante{}, &models.Visita{})
+	//Se utiliza automigrate para crear modelos (tablas en DB)
+	db.DB.AutoMigrate(models.Visitors{})
 
-	r := gin.Default()
+	r := mux.NewRouter()
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "¡Bienvenido a HorizonT!",
-		})
-	})
+	//llamado del index
 
-	// Rutas para visitas
-	r.GET("/visitas", controllers.GetVisitas)
-	r.POST("/visitas", controllers.CreateVisita)
-	r.GET("/visitas/:id", controllers.GetVisita)
-	r.PUT("/visitas/:id", controllers.UpdateVisita)
-	r.DELETE("/visitas/:id", controllers.DeleteVisita)
+	r.HandleFunc("/", routes.HomeHandler)
 
-	r.Run(":8080")
+	//llamado de la API
+	s := r.PathPrefix("/api").Subrouter()
+	//llamado al endpoint para visitors
+	s.HandleFunc("/visitors", routes.PostVisitorHandler).Methods("POST")
+
+	http.ListenAndServe(":8080", r)
 }

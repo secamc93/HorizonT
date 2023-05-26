@@ -1,0 +1,99 @@
+-- Crear la tabla Residentes
+CREATE TABLE residentes (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    identificacion VARCHAR(50) NOT NULL UNIQUE,
+    tipo_identificacion VARCHAR(50) NOT NULL,
+    telefono VARCHAR(50),
+    correo_electronico VARCHAR(255) UNIQUE,
+    es_propietario BOOLEAN NOT NULL
+	
+);
+
+-- Crear la tabla Unidades
+CREATE TABLE unidades (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    propietario_id INT REFERENCES residentes(id),
+    arrendatario_id INT REFERENCES residentes(id),
+    tipo VARCHAR(50) NOT NULL,
+    area NUMERIC(10, 2) NOT NULL,
+    CHECK (propietario_id <> arrendatario_id),
+	constraint habita_unidad CHECK (propietario_id <> arrendatario_id)
+);
+
+-- Crear la tabla Visitantes
+CREATE TABLE visitantes (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    identificacion VARCHAR(50) UNIQUE,
+    tipo_identificacion VARCHAR(50),
+    telefono VARCHAR(50),
+    foto BYTEA
+);
+
+-- Crear la tabla Visitas
+CREATE TABLE visitas (
+    id SERIAL PRIMARY KEY,
+    visitante_id INT NOT NULL REFERENCES visitantes(id),
+    unidad_id INT NOT NULL REFERENCES unidades(id),
+    fecha_hora_entrada TIMESTAMP NOT NULL,
+    fecha_hora_salida TIMESTAMP,
+    motivo_visita VARCHAR(255),
+    observaciones TEXT
+);
+
+
+-- Insertar datos en la tabla Residentes
+INSERT INTO residentes (nombre, identificacion, tipo_identificacion, telefono, correo_electronico, es_propietario)
+VALUES 
+('Juan Pérez', '123456789', 'Cédula', '3001234567', 'juan.perez@gmail.com', TRUE),
+('Ana Gomez', '987654321', 'Cédula', '3109876543', 'ana.gomez@gmail.com', FALSE)
+-- (añadir más residentes según se necesite)
+
+-- Insertar datos en la tabla Unidades
+INSERT INTO unidades (nombre, propietario_id, arrendatario_id, tipo, area)
+VALUES 
+('Unidad 1', 1, NULL, 'Apartamento', 100.00),
+('Unidad 2', 1, 2, 'Apartamento', 120.00)
+-- (añadir más unidades según se necesite)
+
+-- Insertar datos en la tabla Visitantes
+INSERT INTO visitantes (nombre, identificacion, tipo_identificacion, telefono)
+VALUES 
+('Carlos López', '555555555', 'Cédula', '3205555555'),
+('Maria Rodríguez', '666666666', 'Cédula', '3216666666')
+-- (añadir más visitantes según se necesite)
+
+-- Insertar datos en la tabla Visitas
+INSERT INTO visitas (visitante_id, unidad_id, fecha_hora_entrada, fecha_hora_salida, motivo_visita, observaciones)
+VALUES 
+(1, 1, '2023-05-14 10:00:00', '2023-05-14 14:00:00', 'Visita familiar', 'Ninguna observación'),
+(2, 2, '2023-05-14 11:30:00', '2023-05-14 15:30:00', 'Visita de negocios', 'Dejó tarjeta de presentación')
+-- (añadir más visitas según se necesite)
+
+SELECT 
+    visitas.id AS id_visita,
+    visitantes.nombre AS nombre_visitante,
+    visitantes.identificacion AS identificacion_visitante,
+    unidades.nombre AS nombre_unidad,
+    residentes.nombre AS nombre_propietario,
+    visitas.fecha_hora_entrada,
+    visitas.fecha_hora_salida,
+    visitas.motivo_visita,
+    visitas.observaciones
+FROM 
+    visitas
+JOIN 
+    visitantes ON visitas.visitante_id = visitantes.id
+JOIN 
+    unidades ON visitas.unidad_id = unidades.id
+JOIN
+    residentes ON unidades.propietario_id = residentes.id;
+
+
+select * from visitas
+
+
+
+
