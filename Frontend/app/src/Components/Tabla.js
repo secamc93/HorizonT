@@ -10,7 +10,7 @@ function Tabla() {
       setIsLoading(true);
 
       try {
-        const response = await fetch('localhost/datos'); // Reemplaza con tu URL de la API.
+        const response = await fetch('http://localhost:8080/api/visitors'); // Reemplaza con tu URL de la API.
         const data = await response.json();
         
         setData(data);
@@ -59,16 +59,16 @@ function Tabla() {
                   {data.map((row, i) => (
                     <tr key={i}>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {row.nombre}
+                        {row.name}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {row.apellido}
+                        {row.lastname}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {row.cedula}
+                        {row.dni}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {row.unidad}
+                        {row.unity}
                       </td>
                     </tr>
                   ))}

@@ -9,7 +9,7 @@ import (
 
 // Se modifica la ruta DB agregando el archivo connection.go
 // connection.go se encarga de realizar la conexión a la bbdd
-var DSN = "host=localhost user=cam password=2004 dbname=HorizonT sslmode=disable" //cadena de conexión
+var DSN = "host=localhost user=cam password=2004 dbname=horizont sslmode=disable" //cadena de conexión
 var DB *gorm.DB                                                                   //variable DB para llamar GORM
 
 func DBConnection() {

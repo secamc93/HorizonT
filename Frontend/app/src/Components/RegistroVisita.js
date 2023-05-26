@@ -1,60 +1,64 @@
 import React, { useState } from 'react';
 import '../index.css';
 
-
 function RegistroVisita() {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [cedula, setCedula] = useState('');
   const [unidad, setUnidad] = useState('');
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
   
     const visita = {
-      nombre: nombre,
-      apellido: apellido,
-      cedula: cedula,
-      unidad: unidad
+      name: nombre,
+      lastname: apellido,
+      dni: cedula,
+      unity: unidad
     };
-  
-    const response = await fetch('localhost/visitas', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(visita)
-    });
-  
-    if (response.ok) {
+
+    try {
+      const response = await fetch('http://localhost:8080/api/visitors', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(visita)
+      });
+      
+      if (!response.ok) {
+        const message = `An error has occured: ${response.status}`;
+        throw new Error(message);
+      }
+
       mostrarMensaje('Visita registrada con éxito', 'success');
-    } else {
-      mostrarMensaje('Hubo un error registrando la visita', 'error');
+    } catch (error) {
+      mostrarMensaje('Hubo un error registrando la visita: ' + error.message, 'error');
     }
-  
+
     setNombre('');
     setApellido('');
     setCedula('');
     setUnidad('');
   };
-  
+
   function mostrarMensaje(mensaje, tipo) {
     const mensajeElemento = document.getElementById('mensaje');
     mensajeElemento.textContent = mensaje;
-  
+
     if (tipo === 'success') {
       mensajeElemento.style.color = 'green';
     } else if (tipo === 'error') {
       mensajeElemento.style.color = 'red';
     }
   };
+
   
   
 
   return (
     <div className= "flex-grow bg-gray-700 p-6 rounded-lg shadow-md  items-start m-20 max-w-xs mx-auto" >
-      <p id="mensaje"  className="text-center bg-green-900 rounded-lg p-1"></p>
+      <p id="mensaje"  className="text-center   p-1"></p>
 
       <h2 className="text-white text-center font-bold uppercase">Registro de visita</h2>
       <form onSubmit={handleSubmit} className="w-full">

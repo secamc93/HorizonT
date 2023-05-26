@@ -18,11 +18,13 @@ function App() {
 
   return (
       <AppWrapper>
-          <Header />
+          <Header>
+          < >{message}</>
+          </Header>  
           <RegistroVisita />
           <Tabla/>
           <Footer/>
-          <p>{message}</p>
+          
       </AppWrapper>
   );
 }

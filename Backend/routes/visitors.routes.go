@@ -24,3 +24,9 @@ func PostVisitorHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&visitor)
 
 }
+func GetVisitorHandler(w http.ResponseWriter, r *http.Request) {
+	var visitors []models.Visitors
+	db.DB.Find(&visitors)
+
+	json.NewEncoder(w).Encode(visitors)
+}
